@@ -9,7 +9,7 @@ export function supabaseServer() {
   const cookieStore = cookies();
   return createServerClient(URL, ANON, {
     cookies: {
-      get: (name) => cookieStore.get(name)?.value,
+      get: (name: string) => cookieStore.get(name)?.value,
       set: () => {},
       remove: () => {},
     },
