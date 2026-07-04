@@ -1,5 +1,4 @@
-import { createBrowserClient, createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { createBrowserClient } from "@supabase/ssr";
 import { createClient } from "@supabase/supabase-js";
 
 const URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -8,18 +7,6 @@ const ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 /** Cliente para uso no browser (Client Components). */
 export function supabaseBrowser() {
   return createBrowserClient(URL, ANON);
-}
-
-/** Cliente para uso em Server Components / Route Handlers com cookies do usuário. */
-export function supabaseServer() {
-  const cookieStore = cookies();
-  return createServerClient(URL, ANON, {
-    cookies: {
-      get: (name) => cookieStore.get(name)?.value,
-      set: () => {},
-      remove: () => {},
-    },
-  });
 }
 
 /** Cliente admin (Service Role) — SÓ usar em rotas server-side seguras (cron, etc). */
