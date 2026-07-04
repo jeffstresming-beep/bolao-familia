@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body { background: #0b0f0d; color: #e6ede9; }
+body { font-family: Inter, system-ui, -apple-system, sans-serif; }
+
+/* Scrollbar sutil */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #1f2a24; border-radius: 8px; }
+
+/* Utilities de card */
+.card { @apply bg-bg-card border border-bg-border rounded-xl2 shadow-card; }
+.card-p { @apply card p-4 sm:p-6; }
