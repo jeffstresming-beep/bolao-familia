@@ -1,3 +1,4 @@
+@'
 "use client";
 import { motion } from "framer-motion";
 import { Radio } from "lucide-react";
@@ -48,7 +49,7 @@ export function ScoreBoard({ b }: { b: Bolao }) {
           <div className="font-semibold text-sm sm:text-base">{b.time_casa}</div>
         </div>
 
-<div className="text-center">
+        <div className="text-center">
           <motion.div
             key={`${b.placar_casa}-${b.placar_fora}-${b.status}`}
             initial={{ scale: 0.85, opacity: 0 }}
@@ -68,6 +69,12 @@ export function ScoreBoard({ b }: { b: Bolao }) {
           </motion.div>
         </div>
 
+        <div className="text-center">
+          <div className="text-4xl sm:text-5xl mb-1">{b.flag_fora ?? "🏳️"}</div>
+          <div className="font-semibold text-sm sm:text-base">{b.time_fora}</div>
+        </div>
+      </div>
+
       {b.status !== "pre" && b.status !== "cancelado" && (
         <div className="mt-6">
           <div className="h-1.5 bg-bg-border rounded-full overflow-hidden">
@@ -86,3 +93,4 @@ export function ScoreBoard({ b }: { b: Bolao }) {
     </div>
   );
 }
+'@ | Set-Content -Path components\ScoreBoard.tsx -Encoding UTF8
