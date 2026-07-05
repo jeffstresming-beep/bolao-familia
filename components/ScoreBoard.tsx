@@ -1,4 +1,3 @@
-@'
 "use client";
 import { motion } from "framer-motion";
 import { Radio } from "lucide-react";
@@ -93,4 +92,3 @@ export function ScoreBoard({ b }: { b: Bolao }) {
     </div>
   );
 }
-'@ | Set-Content -Path components\ScoreBoard.tsx -Encoding UTF8
