@@ -8,8 +8,9 @@ export function distancia(p: Participante, b: Bolao) {
   );
 }
 
-/** Acertou exatamente o placar? */
+/** Acertou exatamente o placar? (só faz sentido se o jogo já começou) */
 export function acertou(p: Participante, b: Bolao) {
+  if (b.status === "pre" || b.status === "cancelado") return false;
   return p.palpite_casa === b.placar_casa && p.palpite_fora === b.placar_fora;
 }
 
@@ -20,8 +21,11 @@ export function calcularPremioTotal(b: Bolao, ps: Participante[]) {
   return base * Number(b.valor_aposta);
 }
 
-/** Ordena o ranking. Empates preservam ordem estável. */
+/** Ordena o ranking. Antes do jogo, ordem alfabética (todos empatados). */
 export function rankear(ps: Participante[], b: Bolao) {
+  if (b.status === "pre") {
+    return [...ps].sort((a, b2) => a.nome.localeCompare(b2.nome, "pt-BR"));
+  }
   return [...ps].sort((a, b2) => {
     const da = distancia(a, b);
     const db = distancia(b2, b);
@@ -33,8 +37,10 @@ export function rankear(ps: Participante[], b: Bolao) {
 /** Situação legível de cada participante em relação ao placar atual. */
 export function situacao(p: Participante, b: Bolao): {
   label: string;
-  cor: "verde" | "amarelo" | "vermelho";
+  cor: "verde" | "amarelo" | "vermelho" | "neutro";
 } {
+  if (b.status === "pre") return { label: "Aguardando", cor: "neutro" };
+  if (b.status === "cancelado") return { label: "Cancelado", cor: "neutro" };
   if (acertou(p, b)) return { label: "Acertando", cor: "verde" };
   if (b.status === "ft") return { label: "Não venceu", cor: "vermelho" };
   const d = distancia(p, b);
@@ -58,7 +64,7 @@ export function definirVencedores(b: Bolao, ps: Participante[]): Vencedor[] {
   })();
 
   if (vencedores.length === 0) return [];
-  const cota = Math.floor((premio * 100) / vencedores.length) / 100; // 2 casas
+  const cota = Math.floor((premio * 100) / vencedores.length) / 100;
   return vencedores.map((v) => ({
     id: v.id,
     nome: v.nome,
