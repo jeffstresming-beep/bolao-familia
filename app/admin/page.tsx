@@ -6,18 +6,14 @@ import type { Bolao, Participante } from "@/lib/types";
 import { formatBRL, calcularPremioTotal } from "@/lib/bolao-logic";
 import { LogOut, Plus, Trash2, Edit3, Check, X, RefreshCw, Power } from "lucide-react";
 
-/** Converte ISO UTC (ex: "2026-07-05T20:00:00.000Z") para o formato aceito
- *  pelo <input type="datetime-local"> no fuso local do navegador
- *  (ex: "2026-07-05T17:00" quando o usuário está em BRT/UTC-3). */
 function isoParaInputLocal(iso: string | null | undefined): string {
   if (!iso) return "";
   const d = new Date(iso);
-  const off = d.getTimezoneOffset(); // minutos
+  const off = d.getTimezoneOffset();
   const local = new Date(d.getTime() - off * 60000);
   return local.toISOString().slice(0, 16);
 }
 
-/** Faz o caminho inverso: pega o valor local do input e devolve ISO UTC. */
 function inputLocalParaIso(v: string): string {
   if (!v) return new Date().toISOString();
   return new Date(v).toISOString();
@@ -178,6 +174,15 @@ function Kpi({ label, value, accent }: { label: string; value: string; accent?: 
       <div className="text-xs text-muted">{label}</div>
       <div className={`text-2xl font-black ${accent ? "text-brand-green" : ""}`}>{value}</div>
     </div>
+  );
+}
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <label className="block">
+      <span className="text-xs text-muted">{label}</span>
+      <div className="mt-1">{children}</div>
+    </label>
   );
 }
 
