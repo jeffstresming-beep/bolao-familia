@@ -48,25 +48,25 @@ export function ScoreBoard({ b }: { b: Bolao }) {
           <div className="font-semibold text-sm sm:text-base">{b.time_casa}</div>
         </div>
 
-        <div className="text-center">
+<div className="text-center">
           <motion.div
-            key={`${b.placar_casa}-${b.placar_fora}`}
+            key={`${b.placar_casa}-${b.placar_fora}-${b.status}`}
             initial={{ scale: 0.85, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
             className="text-4xl sm:text-6xl font-black tracking-tight"
           >
-            {b.placar_casa}
-            <span className="text-muted mx-2 font-light">x</span>
-            {b.placar_fora}
+            {b.status === "pre" ? (
+              <span className="text-muted">—</span>
+            ) : (
+              <>
+                {b.placar_casa}
+                <span className="text-muted mx-2 font-light">x</span>
+                {b.placar_fora}
+              </>
+            )}
           </motion.div>
         </div>
-
-        <div className="text-center">
-          <div className="text-4xl sm:text-5xl mb-1">{b.flag_fora ?? "🏳️"}</div>
-          <div className="font-semibold text-sm sm:text-base">{b.time_fora}</div>
-        </div>
-      </div>
 
       {b.status !== "pre" && b.status !== "cancelado" && (
         <div className="mt-6">
